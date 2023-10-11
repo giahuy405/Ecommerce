@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.myBlueshadow{
+    box-shadow: 0 5px 20px 0 #3485f69d;
+}
+.myBlueshadow:hover{
+    box-shadow: 0 5px 20px 0 #3485f6d3;
+}
