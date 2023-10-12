@@ -1,9 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.myBlueshadow{
-    box-shadow: 0 5px 20px 0 #3485f69d;
+
+.myBlueshadow {
+    box-shadow: 0 5px 12px 0 #3485f69d;
+    transition: .3s;
 }
-.myBlueshadow:hover{
-    box-shadow: 0 5px 20px 0 #3485f6d3;
+
+.myBlueshadow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px 0 #3485f6d3;
 }

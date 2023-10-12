@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import BrandLogo from 'src/components/BrandLogo'
 import CustomInput from 'src/components/Input/CustomInput'
 import PrimaryButton from 'src/components/PrimaryButton'
@@ -9,6 +8,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
 import { registerAccount } from 'src/apis/auth.api'
 import { omit } from 'lodash'
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { SuccessResponseApi } from 'src/types/utils.type'
+import { useContext } from 'react'
+import { AppContext } from 'src/context/app.context'
 
 // interface FormData {
 //   email: string
@@ -28,16 +31,41 @@ const Register = () => {
   } = useForm<FormData>({
     resolver: yupResolver(schema)
   })
+  const { setIsAuthenticate } = useContext(AppContext)
+  const navigate = useNavigate()
 
   // const rules = getRules(getValues) dùng yup thì không cần dùng rules này
   const onSubmit = handleSubmit((data) => {
     const body = omit(data, ['confirmPassword'])
     registerAccountMutation.mutate(data, {
       onSuccess: (data) => {
-        console.log(data, 'ok')
+        setIsAuthenticate(true)
+        navigate('/')
       },
       onError: (error) => {
-        console.log(error)
+        if (isAxiosUnprocessableEntityError<SuccessResponseApi<Omit<FormData, 'confirmPassword'>>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof Omit<FormData, 'confirmPassword'>, {
+                message: formError[key as keyof Omit<FormData, 'confirmPassword'>],
+                type: 'Server'
+              })
+            })
+          }
+          // if(formError?.email){
+          //   setError('email',{
+          //     message:formError.email,
+          //     type:"Server"
+          //   })
+          // }
+          // if(formError?.password){
+          //   setError('password',{
+          //     message:formError.password,
+          //     type:"Server"
+          //   })
+          // }
+        }
       }
     })
   })
@@ -50,7 +78,10 @@ const Register = () => {
     <div className='container mx-auto bg-white dark:bg-primary-dark  p-5 max-w-[350px] rounded-2xl shadow-lg px-8 py-8'>
       <form noValidate onSubmit={onSubmit}>
         <h2 className='font-bold text-center text-xl mt-4 dark:text-white'>ĐĂNG KÝ</h2>
-        <BrandLogo className='w-14 h-14' figureClassName='mt-3 mb-9' />
+
+        <Link to='/'>
+          <BrandLogo className='w-14 h-14' figureClassName='mt-3 mb-9' />
+        </Link>
 
         <CustomInput
           type='email'
@@ -78,7 +109,7 @@ const Register = () => {
           errorMessage={errors.confirmPassword?.message}
         />
 
-        <PrimaryButton type='submit' content='Đăng ký' className='w-full mt-2' />
+        <PrimaryButton type='submit' content='Đăng ký' className='w-full mt-2 py-3' />
 
         <div className='text-center mt-7  text-gray-300 text-sm'>
           Đã có tài khoản?{' '}

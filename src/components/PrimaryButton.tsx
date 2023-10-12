@@ -7,7 +7,7 @@ const PrimaryButton = ({ content, className, type }: Props) => {
   return (
     <button
       type={type}
-      className={`rounded-lg bg-blue-500 text-white  p-3 hover:bg-blue-600 myBlueshadow ${className}`}
+      className={`rounded-lg bg-blue-500 text-white hover:bg-blue-600 myBlueshadow ${className}`}
     >
       {content}
     </button>
