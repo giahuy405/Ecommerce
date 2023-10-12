@@ -109,7 +109,14 @@ const Register = () => {
           errorMessage={errors.confirmPassword?.message}
         />
 
-        <PrimaryButton type='submit' content='Đăng ký' className='w-full mt-2 py-3' />
+        <PrimaryButton
+          type='submit'
+          className='w-full mt-2 py-3 flex items-center justify-center gap-2'
+          isLoading={registerAccountMutation.isLoading}
+          disabled={registerAccountMutation.isLoading}
+        >
+          Đăng ký
+        </PrimaryButton>
 
         <div className='text-center mt-7  text-gray-300 text-sm'>
           Đã có tài khoản?{' '}

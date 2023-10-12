@@ -10,16 +10,15 @@ import { useMutation } from 'react-query'
 import { logoutAccount } from 'src/apis/auth.api'
 
 const Header = () => {
-  const { setIsAuthenticate ,isAuthenticated} = useContext(AppContext)
+  const { setIsAuthenticate, isAuthenticated } = useContext(AppContext)
 
   const logoutMutation = useMutation({
-    mutationFn:logoutAccount,
-    onSuccess:()=>{
+    mutationFn: logoutAccount,
+    onSuccess: () => {
       setIsAuthenticate(false)
     }
   })
-  
- 
+
   return (
     <header className='bg-white py-4 dark:bg-primary-dark lg:py-5'>
       <div className='container'>
@@ -52,7 +51,6 @@ const Header = () => {
                       <p>Sản phẩm</p>
                       <p>2.500</p>
                     </li>
-                   
                   </ul>
                 </div>
               }
@@ -80,11 +78,24 @@ const Header = () => {
                 <LanguageIcon />
               </div>
             </Popover>
-           {!isAuthenticated &&  <Link to='/login'>
-              <PrimaryButton type='button' content='Đăng nhập' className='p-2 px-3' />
-            </Link>}
-            {isAuthenticated && <div className='dark:text-white cursor-pointer ' onClick={()=>logoutMutation.mutate()}>
-              Đăng xuất</div>}
+            {!isAuthenticated && (
+              <Link to='/login'>
+                <PrimaryButton
+                  type='button'
+                  className=' p-2 px-3 flex items-center justify-center gap-2'
+              
+                  isLoading={logoutMutation.isLoading}
+                  disabled={logoutMutation.isLoading}
+                >
+                  Đăng nhập
+                </PrimaryButton>
+              </Link>
+            )}
+            {isAuthenticated && (
+              <div className='dark:text-white cursor-pointer ' onClick={() => logoutMutation.mutate()}>
+                Đăng xuất
+              </div>
+            )}
           </div>
         </div>
       </div>

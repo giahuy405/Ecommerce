@@ -14,8 +14,8 @@ import { AppContext } from 'src/context/app.context'
 
 type FormData = LoginSchema
 const Login = () => {
-  const {setIsAuthenticate} = useContext(AppContext);
-  const navigate = useNavigate();
+  const { setIsAuthenticate } = useContext(AppContext)
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -28,8 +28,8 @@ const Login = () => {
   const onSubmit = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
       onSuccess: (data) => {
-        setIsAuthenticate(true);
-        navigate('/');
+        setIsAuthenticate(true)
+        navigate('/')
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<SuccessResponseApi<Omit<FormData, 'confirmPassword'>>>(error)) {
@@ -77,7 +77,14 @@ const Login = () => {
           errorMessage={errors.password?.message}
         />
 
-        <PrimaryButton type='submit' content='Đăng nhập' className='w-full mt-2 py-3' />
+        <PrimaryButton
+          type='submit'
+          className='w-full mt-2 py-3 flex items-center justify-center gap-2'
+          isLoading={loginAccountMutation.isLoading}
+          disabled={loginAccountMutation.isLoading}
+        >
+          Đăng nhập
+        </PrimaryButton>
 
         <div className='text-center mt-7  text-gray-300 text-sm'>
           Chưa có tài khoản?{' '}

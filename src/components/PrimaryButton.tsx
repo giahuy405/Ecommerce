@@ -1,15 +1,22 @@
-interface Props {
-  content?: string
+import { ButtonHTMLAttributes } from 'react'
+import { SpinnerIcon } from './Icon'
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string
   type: 'button' | 'submit' | 'reset' | undefined
+  isLoading?: boolean
+  spinnerClass: string | undefined
 }
-const PrimaryButton = ({ content, className, type }: Props) => {
+const PrimaryButton = ({ className, type, isLoading, disabled, children, spinnerClass, ...rest }: Props) => {
+  const newClassName = disabled ? className + 'cursor-not-allow' : className
   return (
     <button
       type={type}
-      className={`rounded-lg bg-blue-500 text-white hover:bg-blue-600 myBlueshadow ${className}`}
+      className={`rounded-md bg-blue-500 text-white hover:bg-blue-600 myBlueshadow ${newClassName}`}
+      disabled={disabled}
+      {...rest}
     >
-      {content}
+      {isLoading && <SpinnerIcon className={spinnerClass} />}
+      {children}
     </button>
   )
 }
