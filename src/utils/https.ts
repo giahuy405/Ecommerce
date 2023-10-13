@@ -3,6 +3,7 @@ import { HttpStatusCode } from 'src/constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
 import { AuthResponse } from 'src/types/auth.type'
 import { getAccessTokenLS, removeAccessTokenLS, saveAccessTokenToLS } from './auth'
+import { path } from 'src/constants/path'
 
 class Http {
   instance: AxiosInstance
@@ -32,10 +33,10 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const url = response.config.url
-        if (url === '/login' || url === '/register') {
+        if (url === path.login || url === path.register) {
           this.accessToken = (response.data as AuthResponse).data?.access_token
           saveAccessTokenToLS(this.accessToken)
-        } else if (url === '/logout') {
+        } else if (url === path.logout) {
           this.accessToken = ''
           removeAccessTokenLS()
         }

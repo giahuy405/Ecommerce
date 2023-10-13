@@ -12,6 +12,7 @@ import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { SuccessResponseApi } from 'src/types/utils.type'
 import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
+import { path } from 'src/constants/path'
 
 // interface FormData {
 //   email: string
@@ -120,7 +121,7 @@ const Register = () => {
 
         <div className='text-center mt-7  text-gray-300 text-sm'>
           Đã có tài khoản?{' '}
-          <Link className='text-blue-500 hover:text-blue-600' to='/login'>
+          <Link className='text-blue-500 hover:text-blue-600' to={path.login}>
             {' '}
             Đăng nhập
           </Link>

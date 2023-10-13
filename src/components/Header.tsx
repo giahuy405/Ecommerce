@@ -8,6 +8,7 @@ import { AppContext } from 'src/context/app.context'
 import { removeAccessTokenLS } from 'src/utils/auth'
 import { useMutation } from 'react-query'
 import { logoutAccount } from 'src/apis/auth.api'
+import { path } from 'src/constants/path'
 
 const Header = () => {
   const { setIsAuthenticate, isAuthenticated } = useContext(AppContext)
@@ -79,7 +80,7 @@ const Header = () => {
               </div>
             </Popover>
             {!isAuthenticated && (
-              <Link to='/login'>
+              <Link to={path.login}>
                 <PrimaryButton
                   type='button'
                   className=' p-2 px-3 flex items-center justify-center gap-2'

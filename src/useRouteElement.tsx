@@ -7,11 +7,12 @@ import RegisterLayout from './layouts/RegisterLayout'
 import MainLayout from './layouts/MainLayout'
 import Profile from './pages/Profile/Profile'
 import { AppContext } from './context/app.context'
+import { path } from './constants/path'
 
 // login rồi thì vào được Component
 const ProtectedRoute = () => {
   const { isAuthenticated } = useContext(AppContext)
-  return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
+  return isAuthenticated ? <Outlet /> : <Navigate to={path.login} />
 }
 
 // login rồi ko vào được Component đó
@@ -35,7 +36,7 @@ const useRouteElement = () => {
       element: <ProtectedRoute />,
       children: [
         {
-          path: 'profile',
+          path: path.profile,
           element: (
             <MainLayout>
               <Profile />
@@ -49,7 +50,7 @@ const useRouteElement = () => {
       element: <RejectRoute />,
       children: [
         {
-          path: 'login',
+          path: path.login,
           element: (
             <RegisterLayout>
               <Login />
@@ -57,7 +58,7 @@ const useRouteElement = () => {
           )
         },
         {
-          path: 'register',
+          path: path.register,
           element: (
             <RegisterLayout>
               <Register />

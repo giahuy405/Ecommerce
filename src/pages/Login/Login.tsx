@@ -11,6 +11,7 @@ import { SuccessResponseApi } from 'src/types/utils.type'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
+import { path } from 'src/constants/path'
 
 type FormData = LoginSchema
 const Login = () => {
@@ -88,7 +89,7 @@ const Login = () => {
 
         <div className='text-center mt-7  text-gray-300 text-sm'>
           Chưa có tài khoản?{' '}
-          <Link className='text-blue-500 hover:text-blue-700' to='/register'>
+          <Link className='text-blue-500 hover:text-blue-700' to={path.register}>
             {' '}
             Đăng ký
           </Link>

@@ -4,7 +4,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string
   type: 'button' | 'submit' | 'reset' | undefined
   isLoading?: boolean
-  spinnerClass: string | undefined
+  spinnerClass?: string | undefined
 }
 const PrimaryButton = ({ className, type, isLoading, disabled, children, spinnerClass, ...rest }: Props) => {
   const newClassName = disabled ? className + 'cursor-not-allow' : className
