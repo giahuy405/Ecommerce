@@ -32,14 +32,15 @@ const Register = () => {
   } = useForm<FormData>({
     resolver: yupResolver(schema)
   })
-  const { setIsAuthenticate } = useContext(AppContext)
+  const { setIsAuthenticate,setProfile } = useContext(AppContext)
   const navigate = useNavigate()
 
   // const rules = getRules(getValues) dùng yup thì không cần dùng rules này
   const onSubmit = handleSubmit((data) => {
     const body = omit(data, ['confirmPassword'])
-    registerAccountMutation.mutate(data, {
+    registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
+        setProfile(data.data.data.user)
         setIsAuthenticate(true)
         navigate('/')
       },

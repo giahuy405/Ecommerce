@@ -2,14 +2,14 @@ import axios, { AxiosInstance } from 'axios'
 import { HttpStatusCode } from 'src/constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
 import { AuthResponse } from 'src/types/auth.type'
-import { getAccessTokenLS, removeAccessTokenLS, saveAccessTokenToLS } from './auth'
+import { getAccessTokenLS, removeLocalStorage, saveAccessTokenToLS, setProfileLS } from './auth'
 import { path } from 'src/constants/path'
 
 class Http {
   instance: AxiosInstance
   private accessToken: string | null // lưu trên ram
   constructor() {
-    this.accessToken = getAccessTokenLS() 
+    this.accessToken = getAccessTokenLS()
     this.instance = axios.create({
       baseURL: 'https://api-ecom.duthanhduoc.com/',
       timeout: 10000,
@@ -34,11 +34,13 @@ class Http {
       (response) => {
         const url = response.config.url
         if (url === path.login || url === path.register) {
-          this.accessToken = (response.data as AuthResponse).data?.access_token
-          saveAccessTokenToLS(this.accessToken)
+          const data = response.data as AuthResponse;
+          this.accessToken = data.data?.access_token
+          saveAccessTokenToLS(this.accessToken);
+          setProfileLS(data.data.user)
         } else if (url === path.logout) {
           this.accessToken = ''
-          removeAccessTokenLS()
+          removeLocalStorage()
         }
         console.log(response)
         return response

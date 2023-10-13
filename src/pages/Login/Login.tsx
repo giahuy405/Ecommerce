@@ -15,7 +15,7 @@ import { path } from 'src/constants/path'
 
 type FormData = LoginSchema
 const Login = () => {
-  const { setIsAuthenticate } = useContext(AppContext)
+  const { setIsAuthenticate, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
   const {
     register,
@@ -29,6 +29,7 @@ const Login = () => {
   const onSubmit = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
       onSuccess: (data) => {
+        setProfile(data.data.data.user)
         setIsAuthenticate(true)
         navigate('/')
       },

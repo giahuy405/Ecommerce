@@ -5,13 +5,13 @@ import BrandLogo from './BrandLogo'
 import { CartIcon, LanguageIcon, SearchIcon } from './Icon'
 import Popover from './Popover'
 import { AppContext } from 'src/context/app.context'
-import { removeAccessTokenLS } from 'src/utils/auth'
+import { removeLocalStorage } from 'src/utils/auth'
 import { useMutation } from 'react-query'
 import { logoutAccount } from 'src/apis/auth.api'
 import { path } from 'src/constants/path'
 
 const Header = () => {
-  const { setIsAuthenticate, isAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticate, isAuthenticated, setProfile ,profile} = useContext(AppContext)
 
   const logoutMutation = useMutation({
     mutationFn: logoutAccount,
@@ -19,6 +19,7 @@ const Header = () => {
       setIsAuthenticate(false)
     }
   })
+  console.log(profile,'profile')
 
   return (
     <header className='bg-white py-4 dark:bg-primary-dark lg:py-5'>
@@ -84,7 +85,6 @@ const Header = () => {
                 <PrimaryButton
                   type='button'
                   className=' p-2 px-3 flex items-center justify-center gap-2'
-              
                   isLoading={logoutMutation.isLoading}
                   disabled={logoutMutation.isLoading}
                 >
@@ -93,9 +93,28 @@ const Header = () => {
               </Link>
             )}
             {isAuthenticated && (
-              <div className='dark:text-white cursor-pointer ' onClick={() => logoutMutation.mutate()}>
-                Đăng xuất
-              </div>
+              <Popover
+                placement='bottom'
+                renderPopover={
+                  <div className='dark:text-white cursor-pointer bg-white rounded-lg border p-1.5 shadow-lg dark:bg-primary-dark dark:border-secondary-dark'>
+                    <ul>
+                      <li className='pl-3 pr-6 py-1.5 rounded-md  dark:text-white dark:hover:bg-third-dark'>
+                        Hi, {profile?.email}
+                      </li>
+                      <li
+                        className='hover:bg-slate-100 pl-3 pr-6 py-1.5 rounded-md cursor-pointer  dark:text-white dark:hover:bg-third-dark'
+                        onClick={() => logoutMutation.mutate()}
+                      >
+                        Đăng xuất
+                      </li>
+                    </ul>
+                  </div>
+                }
+              >
+                <div>
+                  <img className='w-8 h-8 object-cover rounded-full' src='http://picsum.photos/50' alt='' />
+                </div>
+              </Popover>
             )}
           </div>
         </div>
